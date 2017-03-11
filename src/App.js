@@ -1,5 +1,6 @@
 import React from 'react';
 import {GoogleApiWrapper,Map} from 'google-maps-react'
+import ReactDOM from 'react-dom'
 
 
 //import logo from './logo.svg';
@@ -27,9 +28,21 @@ export default App;
 */
 
 
-var ReactDOM = require("react-dom/server");
-
 export class Container extends React.Component {
+/*
+    constructor(props) {
+        super(props);
+
+        const {lat, lng} = this.props.initialCenter;
+        this.state = {
+            currentLocation: {
+                lat: lat,
+                lng: lng
+            }
+        }
+    }
+    */
+
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.google !== this.props.google) {
             this.loadMap();
@@ -43,7 +56,21 @@ export class Container extends React.Component {
             const maps = google.maps;
 
             const mapRef = this.refs.map;
+            console.log(mapRef)
             const node = ReactDOM.findDOMNode(mapRef);
+
+
+
+            console.log("this is this.props ", this.props);
+            let {initialCenter, zoom} = this.props;
+            console.log(initialCenter)
+            const {lat, lng} = initialCenter;
+            const center = new maps.LatLng(lat, lng);
+            const mapConfig = Object.assign({}, {
+                center: center,
+                zoom: zoom
+            })
+            /*
 
             let zoom = 14;
             let lat = 37.774929;
@@ -88,10 +115,27 @@ export class Container extends React.Component {
             </div>
         }
         return (
-            <div style={style}>
+            <div style={style} ref="map">
                 <Map google={this.props.google}/>
             </div>
         )
+    }
+}
+
+
+Map.propTypes = {
+    google: React.PropTypes.object,
+    zoom: React.PropTypes.number,
+    initialCenter: React.PropTypes.object
+}
+
+
+Map.defaultProps = {
+    zoom: 13,
+    // San Francisco, by default
+    initialCenter: {
+        lat: 37.774929,
+        lng: -122.419416
     }
 }
 
