@@ -1,1 +1,0 @@
-# HackForDiversity2017
