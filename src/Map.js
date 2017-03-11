@@ -1,39 +1,62 @@
-import React from 'react';
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react';
+import GoogleMap, { Marker } from 'google-maps-react'
 
-export class Map extends React.Component {
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (prevProps.google !== this.props.google) {
-    //         this.loadMap();
-    //     }
-    // }
-    loadMap() {
-        if (this.props && this.props.google) {
-            // google is available
-            const {google} = this.props;
-            const maps = google.maps;
+class Map extends Component {
 
-            const mapRef = this.refs.map;
-            const node = ReactDOM.findDOMNode(mapRef);
+    constructor(props) {
+        super(props);
 
-            let zoom = 14;
-            let lat = 37.774929;
-            let lng = -122.419416;
-            const center = new maps.LatLng(lat, lng);
-            const mapConfig = Object.assign({}, {
-                center: center,
-                zoom: zoom
-            })
-            this.map = new maps.Map(node, mapConfig);
-        }
+        this.state = {
+            services: []
+        };
+
+        this.addService = this.addService.bind(this);
     }
+
+    addService(lat, lng) {
+        this.setState({
+            services: this.state.services.concat({
+                name: 'Food',
+                lat: lat,
+                lng: lng
+            })
+        })
+    }
+
+    mapClicked = (mapPros, mapObject, clickEvent) => {
+        console.log(mapPros, mapObject, clickEvent);
+
+        this.addService(clickEvent.latLng.lat(), clickEvent.latLng.lng());
+    }
+
     render() {
         return (
-            <div ref="map">
-                Loading map...
-            </div>
+            <GoogleMap
+                google={this.props.google} zoom={14}
+                onClick={this.mapClicked}
+            >
+                {
+                    this.state.services.map(service => <Marker
+                        name={service.name}
+                        position={{ lat: service.lat, lng: service.lng }}
+                    />)
+                }
+
+                {
+                    this.state.services.map(service => <Marker
+                        name={service.name}
+                        position={{ lat: service.lat, lng: service.lng }}
+                    />)
+                }
+            </GoogleMap>
         )
     }
 }
 
 export default Map;
+
+/*
+export default GoogleApiWrapper({
+    apiKey: "AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo"
+})(Container)
+    */

@@ -1,10 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom'; //renders something on the screen
-import App from './App'; //this is our App
+import ReactDOM from 'react-dom';
+import App from './App';
 import './index.css';
 
 
+
 ReactDOM.render(
-  <App />,
+  <App google={window.google} />,
   document.getElementById('root')
 );
