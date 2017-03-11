@@ -53,7 +53,25 @@ export class Container extends React.Component {
                 center: center,
                 zoom: zoom
             })
+            /*
             this.map = new maps.Map(node, mapConfig);
+
+
+            const evtNames = ['click', 'dragend'];
+
+
+            let centerChangedTimeout;
+            this.map.addListener('dragend', (evt) => {
+                if (centerChangedTimeout) {
+                    clearTimeout(centerChangedTimeout);
+                    centerChangedTimeout = null;
+                }
+                centerChangedTimeout = setTimeout(() => {
+                    this.props.onMove(this.map);
+                }, 0);
+
+            })
+            */
         }
     }
 
@@ -76,6 +94,15 @@ export class Container extends React.Component {
     }
 }
 
+/*
+Map.propTypes = {
+    // ...
+    onMove: React.PropTypes.func
+}
+Map.defaultProps = {
+    onMove: function() {} // default prop
+}
+*/
 
 export default GoogleApiWrapper({
     apiKey: "AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo"
