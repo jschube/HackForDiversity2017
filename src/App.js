@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {GoogleApiWrapper,Map} from 'google-maps-react'
 
+
+//import logo from './logo.svg';
+//import './App.css';
+
+
+/*
 class App extends Component {
   render() {
     return (
@@ -19,3 +24,60 @@ class App extends Component {
 }
 
 export default App;
+*/
+
+
+var ReactDOM = require("react-dom/server");
+
+export class Container extends React.Component {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.google !== this.props.google) {
+            this.loadMap();
+        }
+    }
+
+    loadMap() {
+        if (this.props && this.props.google) {
+            // google is available
+            const {google} = this.props;
+            const maps = google.maps;
+
+            const mapRef = this.refs.map;
+            const node = ReactDOM.findDOMNode(mapRef);
+
+            let zoom = 14;
+            let lat = 37.774929;
+            let lng = -122.419416;
+            const center = new maps.LatLng(lat, lng);
+            const mapConfig = Object.assign({}, {
+                center: center,
+                zoom: zoom
+            })
+            this.map = new maps.Map(node, mapConfig);
+        }
+    }
+
+
+    render() {
+        const style = {
+            width: '100vw',
+            height: '100vh'
+        }
+        if (!this.props.loaded) {
+            return <div ref='map'>
+                Please wait, page is loading...
+            </div>
+        }
+        return (
+            <div style={style}>
+                <Map google={this.props.google}/>
+            </div>
+        )
+    }
+}
+
+
+export default GoogleApiWrapper({
+    apiKey: "AIzaSyAyesbQMyKVVbBgKVi2g6VX7mop2z96jBo"
+})(Container)
+

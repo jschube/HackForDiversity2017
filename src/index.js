@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import GoogleApiWrapper from './App';
 import './index.css';
 
+
 ReactDOM.render(
-  <App />,
+  <GoogleApiWrapper />,
   document.getElementById('root')
 );
