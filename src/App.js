@@ -53,9 +53,10 @@ export class Container extends React.Component {
                 center: center,
                 zoom: zoom
             })
-            /*
+
             this.map = new maps.Map(node, mapConfig);
 
+            /*
 
             const evtNames = ['click', 'dragend'];
 
