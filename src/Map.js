@@ -13,10 +13,10 @@ class Map extends Component {
         this.addService = this.addService.bind(this);
     }
 
-    addService(lat, lng) {
+    addService(lat, lng, service) {
         this.setState({
             services: this.state.services.concat({
-                name: 'Food',
+                name: service,
                 lat: lat,
                 lng: lng
             })
@@ -24,9 +24,10 @@ class Map extends Component {
     }
 
     mapClicked = (mapPros, mapObject, clickEvent) => {
-        console.log(mapPros, mapObject, clickEvent);
-
-        this.addService(clickEvent.latLng.lat(), clickEvent.latLng.lng());
+        let service = window.prompt("Please enter a service you would like to offer");
+        if (service !== "") {
+            this.addService(clickEvent.latLng.lat(), clickEvent.latLng.lng(), service);
+        }
     }
 
     render() {
@@ -42,12 +43,6 @@ class Map extends Component {
                     />)
                 }
 
-                {
-                    this.state.services.map(service => <Marker
-                        name={service.name}
-                        position={{ lat: service.lat, lng: service.lng }}
-                    />)
-                }
             </GoogleMap>
         )
     }
